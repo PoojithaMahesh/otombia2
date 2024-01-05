@@ -1,10 +1,13 @@
 package onetomanybia2.dao;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
 import onetomanybia2.dto.Company;
+import onetomanybia2.dto.Employee;
 
 public class CompanyDao {
 
@@ -56,6 +59,13 @@ public class CompanyDao {
 //			id is present
 			EntityTransaction entityTransaction = entityManager.getTransaction();
 			entityTransaction.begin();
+			
+			List<Employee> employees=dbCompany.getEmployees();
+			
+			for(Employee employee:employees) {
+				employee.setCompany(null);
+			}
+			
 			entityManager.remove(dbCompany);
 			entityTransaction.commit();
 		} else {
